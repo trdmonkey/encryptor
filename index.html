@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Encriptador y Desencriptador SJCL</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sjcl/1.0.8/sjcl.js"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      #container {
+        text-align: center;
+      }
+
+      textarea {
+        width: 300px;
+        height: 100px;
+        margin: 10px;
+      }
+
+      button {
+        margin: 5px;
+        padding: 8px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <textarea id="inputText" placeholder="Ingresa tu texto"></textarea><br />
+      <button onclick="encriptar()">Encriptar</button>
+      <button onclick="desencriptar()">Desencriptar</button><br />
+      <textarea id="outputText" placeholder="Resultado" readonly></textarea>
+    </div>
+
+    <script>
+
+        /*  
+            *  biblioteca sjcl (Stanford JavaScript Crypto Library),
+        */
+      function encriptar() {
+        const inputText = document.getElementById("inputText").value;
+        const password = "UnaClaveSecreta"; // Puedes cambiar esto
+
+        const encrypted = sjcl.encrypt(password, inputText);
+        document.getElementById("outputText").value = encrypted;
+      }
+
+      function desencriptar() {
+        const encryptedText = document.getElementById("inputText").value;
+        const password = "UnaClaveSecreta"; // Debe ser la misma clave que usaste para encriptar
+
+        try {
+          const decrypted = sjcl.decrypt(password, encryptedText);
+          document.getElementById("outputText").value = decrypted;
+        } catch (error) {
+          document.getElementById("outputText").value =
+            "Error al desencriptar. Verifica la clave.";
+        }
+      }
+    </script>
+  </body>
+</html>
